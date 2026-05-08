@@ -60,6 +60,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     // 监听全局排行榜 (所有老师的学生中星星最多的前 20 名)
+    // 注意：这需要 Firestore 规则允许读取所有学生的特定字段，或者完全公开
     const q = query(
       collection(db, 'students'), 
       orderBy('totalStars', 'desc'), 
@@ -79,7 +80,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setUser(u);
       setLoading(false);
     });
-    return () => unsubscribeAuth();
+    return () => {
+      unsubscribeGlobal();
+      unsubscribeAuth();
+    };
   }, []);
 
   useEffect(() => {
@@ -95,6 +99,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const data = docSnap.data() as Student;
         students.push(data);
         
+        // 自动修复：如果旧数据缺少 totalStars 字段，则进行补全
+        // 这样他们才能出现在全局排行榜上
         if (data.totalStars === undefined) {
           const calculated = data.jars.reduce((sum, j) => sum + j.stars.length, 0);
           updateDoc(doc(db, 'students', data.id), { totalStars: calculated });
