@@ -13,9 +13,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+// 如果你在中国访问 Firebase 遇到困难，请参考 deployment_guide.md 设置 Cloudflare Worker 代理
+// 并取消下面 initializeFirestore 的注释，同时注释掉默认的 initializeFirestore
 const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true
+  experimentalForceLongPolling: true,
+  // host: 'your-worker.workers.dev/firestore', 
+  // ssl: true
 });
+
 const auth = getAuth(app);
 
 // 开启离线持久化
