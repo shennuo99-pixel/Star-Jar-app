@@ -406,7 +406,7 @@ body::before {
 .file-drop-text { font-family: var(--serif-display); font-style: italic; color: var(--ink-soft); }
 
 /* ============ 庆祝 ============ */
-.celebration { position: fixed; inset: 0; background: rgba(13, 20, 36, 0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 100; opacity: 0; transition: opacity 0.4s ease; }
+.celebration { position: fixed; inset: 0; background: rgba(13, 20, 36, 0.9); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 100; opacity: 0; transition: opacity 0.4s ease; }
 .celebration.show { display: flex; opacity: 1; }
 .celebration-content { text-align: center; transform: scale(0.8); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .celebration.show .celebration-content { transform: scale(1); }
