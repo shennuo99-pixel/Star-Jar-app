@@ -14,12 +14,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// 如果你在中国访问 Firebase 遇到困难，请参考 deployment_guide.md 设置 Cloudflare Worker 代理
-// 并取消下面 initializeFirestore 的注释，同时注释掉默认的 initializeFirestore
+// 已设置 Cloudflare Worker 反向代理以支持在中国访问
+const PROXY_HOST = 'firebase-proxy.shennuo99-d55.workers.dev';
+
 const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  // host: 'your-worker.workers.dev/firestore', 
-  // ssl: true
+  experimentalForceLongPolling: true, // 开启长轮询以支持代理
+  host: PROXY_HOST + '/firestore',
+  ssl: true
 });
 
 const auth = getAuth(app);
