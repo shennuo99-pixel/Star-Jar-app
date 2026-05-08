@@ -93,7 +93,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     const q = query(collection(db, 'students'), where('teacherId', '==', user.uid));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribeStudents = onSnapshot(q, (snapshot) => {
       const students: Student[] = [];
       snapshot.forEach((docSnap) => {
         const data = docSnap.data() as Student;
@@ -111,7 +111,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.error('Firestore 监听失败:', error);
     });
 
-    return () => unsubscribe();
+    return () => unsubscribeStudents();
   }, [user]);
 
   const flashMessage = useCallback((msg: string) => {
