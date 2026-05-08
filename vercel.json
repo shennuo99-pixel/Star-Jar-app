@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/proxy/firestore/:path*",
+      "destination": "https://firestore.googleapis.com/:path*"
+    },
+    {
+      "source": "/api/proxy/auth/:path*",
+      "destination": "https://identitytoolkit.googleapis.com/:path*"
+    },
+    {
+      "source": "/api/proxy/token/:path*",
+      "destination": "https://securetoken.googleapis.com/:path*"
+    }
+  ]
+}
