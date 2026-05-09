@@ -12,14 +12,11 @@ const Home: React.FC<HomeProps> = ({ onSelectStudent }) => {
     addStudent, 
     removeStudent, 
     editStudent, 
-    importData,
-    globalRankings,
-    user
+    importData
   } = useAppContext();
   const [search, setSearch] = useState('');
   const [showImportModal, setShowImportModal] = useState(false);
   const [importTab, setImportTab] = useState<'manual' | 'paste' | 'csv'>('manual');
-  const [leaderboardTab, setLeaderboardTab] = useState<'class' | 'global'>('class');
   const [manualName, setManualName] = useState('');
   const [manualMeta, setManualMeta] = useState('');
   const [manualColor, setManualColor] = useState(COLORS[0]);
@@ -198,68 +195,29 @@ const Home: React.FC<HomeProps> = ({ onSelectStudent }) => {
           </div>
         </div>
         <div className="leaderboard">
-          <div className="leaderboard-header">
-            <div className={`leaderboard-tab ${leaderboardTab === 'class' ? 'active' : ''}`} onClick={() => setLeaderboardTab('class')}>
-              班级荣誉
-            </div>
-            <div className={`leaderboard-tab ${leaderboardTab === 'global' ? 'active' : ''}`} onClick={() => setLeaderboardTab('global')}>
-              全站排行
-            </div>
-          </div>
-          
           <div className="leaderboard-title">
-            {leaderboardTab === 'class' ? <>荣誉<em>星图</em></> : <>全站<em>星榜</em></>}
+            荣誉<em>星图</em>
           </div>
           <div className="leaderboard-sub">
-            {leaderboardTab === 'class' ? '— class honor roll —' : '— global leaderboard —'}
+            — class honor roll —
           </div>
 
           <ul className="rank-list">
-            {leaderboardTab === 'class' ? (
-              rankedStudents.length === 0 ? (
-                <li style={{ color: 'var(--ink-faint)', fontStyle: 'italic', textAlign: 'center', padding: '20px 0' }}>还没有星星呢</li>
-              ) : (
-                rankedStudents.map((s, i) => (
-                  <li key={s.id} className={`rank-item ${i < 3 ? 'top-' + (i + 1) : ''}`} onClick={() => onSelectStudent(s.id)}>
-                    <div className="rank-num">{i + 1}</div>
-                    <div className="rank-avatar" style={{ background: `linear-gradient(135deg, ${s.color}, ${darken(s.color)})` }}>
-                      {getInitial(s.name)}
-                    </div>
-                    <div className="rank-info">
-                      <div className="rank-name">{s.name}</div>
-                      <div className="rank-stars">{totalStars(s)} 颗星星</div>
-                    </div>
-                  </li>
-                ))
-              )
+            {rankedStudents.length === 0 ? (
+              <li style={{ color: 'var(--ink-faint)', fontStyle: 'italic', textAlign: 'center', padding: '20px 0' }}>还没有星星呢</li>
             ) : (
-              globalRankings.length === 0 ? (
-                <li style={{ color: 'var(--ink-faint)', fontStyle: 'italic', textAlign: 'center', padding: '20px 0' }}>暂无排行数据</li>
-              ) : (
-                globalRankings.map((s, i) => {
-                  const isMine = s.teacherId === user?.uid;
-                  return (
-                    <li 
-                      key={s.id} 
-                      className={`rank-item ${i < 3 ? 'top-' + (i + 1) : ''} ${isMine ? 'is-mine' : ''}`}
-                      onClick={() => isMine && onSelectStudent(s.id)}
-                      title={isMine ? '查看详细信息' : '该学生属于其他老师'}
-                    >
-                      <div className="rank-num">{i + 1}</div>
-                      <div className="rank-avatar" style={{ background: `linear-gradient(135deg, ${s.color}, ${darken(s.color)})` }}>
-                        {getInitial(s.name)}
-                      </div>
-                      <div className="rank-info">
-                        <div className="rank-name">
-                          {s.name}
-                          {isMine && <span className="mine-badge">我的</span>}
-                        </div>
-                        <div className="rank-stars">{s.totalStars || 0} 颗星星</div>
-                      </div>
-                    </li>
-                  );
-                })
-              )
+              rankedStudents.map((s, i) => (
+                <li key={s.id} className={`rank-item ${i < 3 ? 'top-' + (i + 1) : ''}`} onClick={() => onSelectStudent(s.id)}>
+                  <div className="rank-num">{i + 1}</div>
+                  <div className="rank-avatar" style={{ background: `linear-gradient(135deg, ${s.color}, ${darken(s.color)})` }}>
+                    {getInitial(s.name)}
+                  </div>
+                  <div className="rank-info">
+                    <div className="rank-name">{s.name}</div>
+                    <div className="rank-stars">{totalStars(s)} 颗星星</div>
+                  </div>
+                </li>
+              ))
             )}
           </ul>
         </div>

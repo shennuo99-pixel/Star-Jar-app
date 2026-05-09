@@ -3,29 +3,10 @@ import { AppProvider, useAppContext } from './context/AppContext';
 import BackgroundElements from './components/BackgroundElements';
 import Home from './components/Home';
 import StudentDetail from './components/StudentDetail';
-import Login from './components/Login';
 
 const AppContent: React.FC = () => {
-  const { message, loading, user, logout } = useAppContext();
+  const { message } = useAppContext();
   const [view, setView] = useState<{ type: 'home' | 'student'; id?: string }>({ type: 'home' });
-
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="spinner"></div>
-        <p>正在连接星空...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <>
-        <BackgroundElements />
-        <Login />
-      </>
-    );
-  }
 
   return (
     <>
@@ -44,8 +25,8 @@ const AppContent: React.FC = () => {
           )}
         </div>
         <div className="nav-user">
-          <span className="user-name">{user.email || '老师'}</span>
-          <button className="btn-ghost btn-sm btn" onClick={logout}>退出</button>
+          <span className="user-name">本地模式</span>
+          <span className="badge">离线</span>
         </div>
       </div>
 
