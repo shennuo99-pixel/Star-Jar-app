@@ -19,8 +19,8 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (target) {
-    // Redirect to local proxy path defined in vercel.json
-    const proxyUrl = `/api/proxy/${target}${url.pathname}${url.search}`;
+    // Redirect to Cloudflare Worker proxy
+    const proxyUrl = `https://firebase-proxy.shennuo99-d55.workers.dev/${target}${url.pathname}${url.search}`;
     
     event.respondWith(
       (async () => {
